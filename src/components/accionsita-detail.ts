@@ -4,6 +4,7 @@ import { IAccionista } from '../types';
 
 // Utils
 import { generarColorRGB, getNameInitials, isCompany } from '../utils';
+import { getAccionistas } from '../actions/accionistas.action';
 
 @customElement("accionista-detail")
 export class AccionistaDetail extends LitElement {
@@ -31,7 +32,7 @@ export class AccionistaDetail extends LitElement {
   constructor() {
     super();
 
-    this.mySubject = JSON.parse(sessionStorage.getItem("auth")!);
+    this.getAccionista();
   };
 
   @property()
@@ -110,6 +111,22 @@ export class AccionistaDetail extends LitElement {
     return html `
       <div>${ isCompany(name) ? formCompany : formPeople }</div>      
     `;
+  };
+
+  private async getAccionista() {
+
+    const url = new URL(location.href);
+    const params = new URLSearchParams(url.search);
+
+    const docNumber = params.get("selected");
+
+    try {
+      const { data } : { data: IAccionista[] } = await getAccionistas();
+      this.mySubject = data.find( (accionista: IAccionista)=> accionista.Documento !== +docNumber!)!;
+
+    } catch (err) {
+      console.error(err);
+    };
   };
 
 };

@@ -1,6 +1,5 @@
 import { getAccionistas } from "../actions/accionistas.action";
 import { IAccionista } from "../types";
-import { IAccionista } from '../types/index';
 
 export const isCompany = (name: string) => {
 

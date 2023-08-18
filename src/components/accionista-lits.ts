@@ -43,6 +43,9 @@ export class AccionistaList extends LitElement {
   @property({ attribute: false })
   currentDoc: string = "";
 
+  @property({ attribute: false })
+  selectedDoc: number | string = "";
+
   @property({ attribute: false})
   nextPage: number = 3;
 
@@ -61,14 +64,19 @@ export class AccionistaList extends LitElement {
     
     return html `
       <p class="quit" @click="${ this.logout }">❌</p>
-      <h3>Accionistas <span>(${ this.prevPage + 1 } of 3)</span></h3>   
+      <h3>Accionistas
+        <span>(${ this.prevPage + 1 } of 3)</span>
+      </h3> 
+      ${ this.selectedDoc &&
+        html `<accionista-detail></accionista-detail>`
+      }      
       <div class="pagination">
         <span @click="${ this.handleprevPage }">⬅️</span>
         <span @click="${ this.handleNextPage }">➡️</span>
       </div>
       ${ sortByPercentage(this.accionistas).splice(this.prevPage, this.nextPage).map((accionista: IAccionista)=>{
           return html `
-            <div id={${ accionista.Documento }} @click="${ this.handleSelectAccionista }">
+            <div id={${ accionista.Documento }} @click="${ ()=>this.handleSelectAccionista(accionista.Documento) }">
               <accionista-item data='${ JSON.stringify(accionista) }'></accionista-item>
             </div>
           `;
@@ -99,8 +107,6 @@ export class AccionistaList extends LitElement {
 
   private async getAccionistasData() : Promise<void> {
 
-    const authUser : IAccionista = JSON.parse(sessionStorage.getItem("auth")!);
-
     try {
       const { data } = await getAccionistas();
 
@@ -120,11 +126,9 @@ export class AccionistaList extends LitElement {
 
   private handleSelectAccionista(doc: number | string) {
     
-    sessionStorage.removeItem("docSelected");
+    location.href = `?selected=${doc}`;
 
-    const docNumber = location.pathname.split("/")[1];
-
-    sessionStorage.setItem("docSelected", docNumber);
+    this.selectedDoc = doc;
 
   };
 
