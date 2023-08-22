@@ -16,4 +16,42 @@ export default class Http<T> {
     };
   };
 
+  public async getByID(id: string) : Promise<T | undefined> {
+    try {
+      const data = await fetch(this.baseURL + this.path + "/" + id);
+      return data.json();
+    } catch (err) {
+      console.error(err);
+    };
+  };
+
+  public async getByQuery(query:string, id: string) : Promise<T[] | undefined> {
+    try {
+      const data = await fetch(this.baseURL + this.path + query + id);
+      return data.json();
+    } catch (err) {
+      console.error(err);
+    };
+  };
+
+  public async updateByID(id: string, dataToSend: T) : Promise<T[] | undefined> {
+    try {
+      const data = await fetch(this.baseURL + this.path + "/" + id, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dataToSend)
+      });
+
+      console.log("Completed");
+
+      return data.json();
+    } catch (err) {
+      console.error(err);
+    };
+  };
+
+
+
 };

@@ -18,10 +18,10 @@ export class AvatarIcon extends LitElement {
       align-items: center;
       justify-content: center;
       color: white;
-      width: 48px;
-      height: 48px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
-      font-size: 1.3em;
+      font-size: 1.1em;
     }
   `;
 

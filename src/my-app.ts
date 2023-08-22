@@ -3,10 +3,9 @@ import { customElement, property } from 'lit/decorators.js';
 
 // Pages
 import './pages/home-page';
-import './pages/about-us-page';
-import './pages/contact-us-page';
+import './pages/accionista-page';
+import './pages/data-update-page';
 import './pages/not-found';
-import { getAccionistasData } from './actions/accionistas.action';
 
 @customElement("my-app")
 class MyApp extends LitElement {
@@ -52,19 +51,23 @@ class MyApp extends LitElement {
   paths = [
     {
       path: "/",
-      component: html `<home-page></home-page>`
+      component: html `<home-page></home-page>`,
+      regex: /^(\/|\/[\w\-]+\/)$/
     },
     {
       path: "/home",
-      component: html `<home-page></home-page>`
+      component: html `<home-page></home-page>`,
+      regex: /home/i
     },
     {
-      path: "/aboutUs",
-      component: html `<about-us-page></about-us-page>`
+      path: "/accionista",
+      component: html `<accionista-page></accionista-page>`,
+      regex: /accionista/i
     },
     {
-      path: "/contactUs",
-      component: html `<contact-us-page></contact-us-page>`
+      path: "/actualizacion-de-datos",
+      component: html `<data-update-page></data-update-page>`,
+      regex: /actualizacion-de-datos/i
     }
   ];
 
@@ -74,7 +77,7 @@ class MyApp extends LitElement {
     const { pathname } = location;
 
     for(let path of this.paths) {
-      if (path.path !== pathname){
+      if (!path.regex?.test(pathname)){
         continue;
       } else {
         return path.component;

@@ -7,17 +7,29 @@ import { Accionista } from '../types';
 
 // Components
 import '../components/accionista-card';
+import '../components/reminder-info';
 
 @customElement("home-page")
 export class HomePage extends LitElement {
   
   static styles?: CSSResultGroup | undefined = css `
     :host {
-      font-size: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      font-size: 0.8rem;      
     }
 
     h1 {
       font-size: 1.2em;
+    }
+
+    button {
+      margin: 0 auto;
+      padding: 0.5em 1.5em;
+      border: none;
+      background-color: steelblue;
+      color: white;
+      cursor: pointer;
     }
   `;
 
@@ -55,6 +67,8 @@ export class HomePage extends LitElement {
       ${ this.accionistas?.map((accionista: Accionista)=>
         html `<accionista-card accionista="${ JSON.stringify(accionista) }"></accionista-card>`)
       }
+      <reminder-info></reminder-info>
+      <button>Continuar</button>
     `;
   };
 

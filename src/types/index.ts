@@ -1,4 +1,5 @@
 export interface Accionista {
+  id: string | number;
   NIT: string;
   Nombre: string;
   TipoDocumento: string;
